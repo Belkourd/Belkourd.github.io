@@ -1,25 +1,98 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Practice 20210815</title>
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/style.css">
-    </head>
-    <body>
-        <div class="wrapper">
-            <header>To Do List</header>
-            <div class="inputField">
-                <input class="textBox" type="text" placeholder="Add your new todo">
-                <button class="add">
-                    <h3>+</h3>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice 20210815</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <header>To Do List</header>
+        <div class="inputField">
+            <input class="textBox" id="textBox1" type="text" placeholder="Add your new todo">
+            <button class="add">
+                <img src="image/add_box_white_24dp.svg" alt="add">
+            </button>
+        </div>
+        <div class="todo__list">
+            <div class="item">
+                <div class="text">First</div>
+                <button class="edit">
+                    <img src="image/edit_white_24dp.svg" alt="edit">
+                </button>
+                <button class="delete">
+                    <img src="image/delete_white_24dp.svg" alt="delete">
                 </button>
             </div>
-            <div class="footer">
-                <span class="pending-task">You have pending tasks.</span>
-                <button class="clear-all">Clear All</button>
+            <div class="item">
+                <div class="text">Second</div>
+                <button class="edit">
+                    <img src="image/edit_white_24dp.svg" alt="edit">
+                </button>
+                <button class="delete">
+                    <img src="image/delete_white_24dp.svg" alt="delete">
+                </button>
             </div>
         </div>
-    </body>
+        <div class="footer">
+            <span class="pending-task">You have pending tasks.</span>
+            <button class="clear-all">Clear All</button>
+        </div>
+        <div class="edit__mode">
+            <div class="inputField">
+                <input class="textBox" id="textBox1" type="text" placeholder="Add your new todo">
+                <div class="ok__background">
+                    <button class="add">
+                        <img src="image/done_white_24dp.svg" alt="done">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    document.querySelectorAll('.delete').forEach(ele => ele.addEventListener('click', (evt) => {
+        evt.target.parentNode.parentNode.parentNode.removeChild(evt.target.parentNode.parentNode)
+    }))
+    document.querySelector('.add').addEventListener('click', (evt) => {
+        const node = document.querySelector('.todo__list');
+        const newEle = document.createElement('div');
+        newEle.className = 'item'
+
+        const newText = document.createElement('div');
+        newText.className = 'text'
+        newText.innerHTML = `${document.getElementById('textBox1').value}`
+        newEle.appendChild(newText)
+      
+        const newEdit = document.createElement('button');
+        newEdit.className = 'edit'
+        newEdit.innerHTML = `<img src="image/edit_white_24dp.svg" alt="edit">`
+        newEdit.addEventListener('click', (evt) => {
+          const editMode = document.querySelector('.edit__mode')
+          editMode.style.display = 'flex';
+          
+          const editText = document.querySelector('#textBox2');
+          
+           
+          
+        })
+        newEle.appendChild(newEdit)
+
+        const newDelete = document.createElement('button');
+        newDelete.className = 'delete'
+        newDelete.innerHTML = `<img src="image/delete_white_24dp.svg" alt="delete">`
+        newDelete.addEventListener('click', (evt) => {
+            evt.target.parentNode.parentNode.parentNode.removeChild(evt.target.parentNode.parentNode)
+        })
+        newEle.appendChild(newDelete)
+
+        node.appendChild(newEle)
+    })
+</script>
+
 </html>

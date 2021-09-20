@@ -58,7 +58,7 @@
 <script>
     document.querySelectorAll('.delete').forEach(ele => ele.addEventListener('click', (evt) => {
         evt.target.parentNode.parentNode.parentNode.removeChild(evt.target.parentNode.parentNode)
-    }))
+    }));
     document.querySelector('.add').addEventListener('click', (evt) => {
         const node = document.querySelector('.todo__list');
         const newEle = document.createElement('div');
@@ -88,11 +88,29 @@
         newDelete.innerHTML = `<img src="image/delete_white_24dp.svg" alt="delete">`
         newDelete.addEventListener('click', (evt) => {
             evt.target.parentNode.parentNode.parentNode.removeChild(evt.target.parentNode.parentNode)
-        })
-        newEle.appendChild(newDelete)
+        })    
+    newEle.appendChild(newDelete)
+    node.appendChild(newEle)
+    });
 
-        node.appendChild(newEle)
-    })
+    var input = document.querySelector("inputField");
+    function getData()
+    {
+        let todo__item = imput.value;
+        let getLocalStorageData = localStorage.getItem("NewData");
+
+        if(getLocalStorageData == null)
+        {
+            listArray = []; 
+        }
+        else
+        {
+            listArray = JSON.parse(getLocalStorageData);
+        }
+        listArray.push(getLocalStorageData);
+        localStorage.setItem("NewData", JSON.stringify(listArray));
+        input.value = '';
+    }
 </script>
 
 </html>

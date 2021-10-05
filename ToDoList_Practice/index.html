@@ -16,10 +16,67 @@
             <input class="textBox" id="textBox1" type="text" placeholder="Add your new todo">
             <button class="add">
                 <img src="image/add_box_white_24dp.svg" alt="add">
+                <script>
+                    const addItems = document.querySelector('.inputField');
+                    const itemLists = document.querySelector('.todo__list');
+                    const submitBtn = document.querySelector('.add');
+                    const inputText = document.querySelector('.textBox');
+
+                    //當localStorage沒有資料陣列，指定一個空陣列放入資料庫
+                    if (localStorage.getItem('item') === null) {
+                        var storageArray = [];
+                        localStorage.setItem('item', JSON.stringify(storageArray));
+                    } else {
+                        //當localStorage已存在資料陣列，指定一個內容與陣列資料庫相同的陣列 
+                        var storageArray = JSON.parse(localStorage.getItem('item'));
+                    };
+
+                    addItems.addEventListener('.add', addItem);
+                    function addItem(event) {
+                        event.preventDefault();
+                        //取得輸入欄位的資料
+                        inputValue = document.getElementById('textBox1').value;
+                        //建立一個符合我們需求的物件資料
+                        inputObject = { value: inputValue };
+                        //將新物件加入我們的陣列
+                        storageArray.push(inputObject);
+                        //將陣列修改成JSON字串
+                        stringJson = JSON.stringify(storageArray)
+                        //將處理後的JSON字串更新到資料庫中
+                        localStorage.setItem(`items`, stringJson);
+                        //將輸入欄位清空
+                        inputText.value = '';
+                        //將資料呈現在頁面上
+                        createlist()
+                    };
+                    function createlist() {
+                        //將資料庫的陣列取出
+                        let arrayJason = JSON.parse(localStorage.getItem('item'));
+                        //假如資料庫內的陣列有內容存在，執行以下的程式碼
+                        if (arrayJason.length !== 0) {
+                            //先清空ul容器內的元素
+                            itemsList.innerHTML = '';
+                            //對陣列裡的每個元素執行函式
+                            arrayJason.forEach(function (item) {
+                                const node = document.querySelector('.todo__list');
+                                const newEle = document.createElement('div');
+                                newEle.className = 'item'
+
+                                const newText = document.createElement('div');
+                                newText.className = 'text'
+                                newText.innerHTML = `${item['value']}`
+                                newEle.appendChild(newText)
+                            });
+                            //假如資料庫內的陣列有內容存在，執行以下的程式碼
+                        } else {
+                        }
+                    };
+                    createlist();
+                </script>
             </button>
         </div>
         <div class="todo__list">
-            <div class="item">
+            <!-- <div class="item">
                 <div class="text">First</div>
                 <button class="edit">
                     <img src="image/edit_white_24dp.svg" alt="edit">
@@ -27,16 +84,7 @@
                 <button class="delete">
                     <img src="image/delete_white_24dp.svg" alt="delete">
                 </button>
-            </div>
-            <div class="item">
-                <div class="text">Second</div>
-                <button class="edit">
-                    <img src="image/edit_white_24dp.svg" alt="edit">
-                </button>
-                <button class="delete">
-                    <img src="image/delete_white_24dp.svg" alt="delete">
-                </button>
-            </div>
+            </div> -->
         </div>
         <div class="footer">
             <span class="pending-task">You have pending tasks.</span>
@@ -59,55 +107,53 @@
     document.querySelectorAll('.delete').forEach(ele => ele.addEventListener('click', (evt) => {
         evt.target.parentNode.parentNode.parentNode.removeChild(evt.target.parentNode.parentNode)
     }));
-    document.querySelector('.add').addEventListener('click', (evt) => {
-        const node = document.querySelector('.todo__list');
-        const newEle = document.createElement('div');
-        newEle.className = 'item'
+    // document.querySelector('.add').addEventListener('click', (evt) => {
+        // const node = document.querySelector('.todo__list');
+        // const newEle = document.createElement('div');
+        // newEle.className = 'item'
 
-        const newText = document.createElement('div');
-        newText.className = 'text'
-        newText.innerHTML = `${document.getElementById('textBox1').value}`
-        newEle.appendChild(newText)
+        // const newText = document.createElement('div');
+        // newText.className = 'text'
+        // newText.innerHTML = `${document.getElementById('textBox1').value}`
+        // newEle.appendChild(newText)
 
-        const newEdit = document.createElement('button');
-        newEdit.className = 'edit'
-        newEdit.innerHTML = `<img src="image/edit_white_24dp.svg" alt="edit">`
-        newEdit.addEventListener('click', (evt) => {
-            const editMode = document.querySelector('.edit__mode')
-            editMode.style.display = 'flex';
+        // const newEdit = document.createElement('button');
+        // newEdit.className = 'edit'
+        // newEdit.innerHTML = `<img src="image/edit_white_24dp.svg" alt="edit">`
+        // newEdit.addEventListener('click', (evt) => {
+        //     const editMode = document.querySelector('.edit__mode')
+        //     editMode.style.display = 'flex';
 
-            const editText = document.querySelector('#textBox2');
+        //     const editText = document.querySelector('#textBox2');
+        // })
+        // newEle.appendChild(newEdit)
 
+        // const newDelete = document.createElement('button');
+        // newDelete.className = 'delete'
+        // newDelete.innerHTML = `<img src="image/delete_white_24dp.svg" alt="delete">`
+        // newDelete.addEventListener('click', (evt) => {
+        //     evt.target.parentNode.parentNode.parentNode.removeChild(evt.target.parentNode.parentNode)
+        // })
+        // newEle.appendChild(newDelete)
+        // node.appendChild(newEle)
 
+        // function getData() {
+        //     var input = document.querySelector("textBox");
+        //     let todo__item = input.value;
+        //     let getLocalStorageData = localStorage.getItem("NewData");
 
-        })
-        newEle.appendChild(newEdit)
-
-        const newDelete = document.createElement('button');
-        newDelete.className = 'delete'
-        newDelete.innerHTML = `<img src="image/delete_white_24dp.svg" alt="delete">`
-        newDelete.addEventListener('click', (evt) => {
-            evt.target.parentNode.parentNode.parentNode.removeChild(evt.target.parentNode.parentNode)
-        })
-        newEle.appendChild(newDelete)
-        node.appendChild(newEle)
-
-        var input = document.querySelector("inputField");
-        function getData() {
-            let todo__item = imput.value;
-            let getLocalStorageData = localStorage.getItem("NewData");
-
-            if (getLocalStorageData == null) {
-                listArray = [];
-            }
-            else {
-                listArray = JSON.parse(getLocalStorageData);
-            }
-            listArray.push(getLocalStorageData);
-            localStorage.setItem("NewData", JSON.stringify(listArray));
-            input.value = '';
-        }
-    });
+        //     if (getLocalStorageData == null) {
+        //         listArray = [];
+        //     }
+        //     else {
+        //         listArray = JSON.parse(getLocalStorageData);
+        //     }
+        //     listArray.push(getLocalStorageData);
+        //     localStorage.setItem("NewData", JSON.stringify(listArray));
+        //     input.value = '';
+        // }
+        // getData();
+    // });
 </script>
 
 </html>
